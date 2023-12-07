@@ -27,6 +27,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField("String","MONGO_DB_API_KEY",'"application-0-kpklu"')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
