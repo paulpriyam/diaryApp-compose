@@ -28,6 +28,8 @@ android {
         release {
             minifyEnabled false
             buildConfigField("String","MONGO_DB_API_KEY",'"application-0-kpklu"')
+            buildConfigField("String","CLIENT_ID",'"396076740393-o3nd03fdn8tt971eqk39non5v8is3qis.apps.googleusercontent.com"')
+            buildConfigField("String","CLIENT_SECRET",'"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"')
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
