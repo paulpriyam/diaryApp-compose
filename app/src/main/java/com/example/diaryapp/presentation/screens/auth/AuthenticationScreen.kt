@@ -21,6 +21,8 @@ fun AuthenticationScreen(
     loadingState: Boolean = false,
     oneTapState: OneTapSignInState,
     messageBarState: MessageBarState,
+    onTokenReceived: (String) -> Unit,
+    onDialogDismissed: (Exception) -> Unit,
     onButtonClicked: () -> Unit = {}
 ) {
     Scaffold {
@@ -36,11 +38,9 @@ fun AuthenticationScreen(
         state = oneTapState,
         clientId = BuildConfig.CLIENT_ID,
         onTokenIdReceived = { token ->
-            Log.d("TAG", "AuthenticationScreen: token received $token")
-            messageBarState.addSuccess("Successfully Signed In with Google")
+            onTokenReceived.invoke(token)
         },
         onDialogDismissed = { message ->
-            Log.d("TAG", "AuthenticationScreen: dialogDismissed $message")
-            messageBarState.addError(Exception(message))
+            onDialogDismissed.invoke(Exception(message))
         })
 }
