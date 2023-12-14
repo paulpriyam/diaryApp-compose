@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.diaryapp.navigation.Screens
 import com.example.diaryapp.presentation.screens.auth.AuthenticationScreen
+import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import kotlinx.coroutines.delay
 import java.util.logging.Handler
@@ -24,9 +25,11 @@ fun SetUpNavigation(startDestination: String, navHostController: NavHostControll
 fun NavGraphBuilder.authenticationRoute() {
     composable(route = Screens.AuthenticationScreen.route) {
         val oneTapState = rememberOneTapSignInState()
+        val messageBarState = rememberMessageBarState()
         AuthenticationScreen(
             loadingState = oneTapState.opened,
             oneTapState = oneTapState,
+            messageBarState = messageBarState,
             onButtonClicked = {
                 oneTapState.open()
             }

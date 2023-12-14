@@ -7,8 +7,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.diaryapp.BuildConfig
+import com.stevdzasan.messagebar.ContentWithMessageBar
+import com.stevdzasan.messagebar.MessageBarState
 import com.stevdzasan.onetap.OneTapSignInState
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
+import java.lang.Exception
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -16,23 +19,28 @@ import com.stevdzasan.onetap.OneTapSignInWithGoogle
 @Composable
 fun AuthenticationScreen(
     loadingState: Boolean = false,
-    oneTapState:OneTapSignInState,
+    oneTapState: OneTapSignInState,
+    messageBarState: MessageBarState,
     onButtonClicked: () -> Unit = {}
 ) {
     Scaffold {
-        AuthenticationComponent(
-            loadingState = loadingState,
-            onCLick = onButtonClicked
-        )
+        ContentWithMessageBar(messageBarState = messageBarState) {
+            AuthenticationComponent(
+                loadingState = loadingState,
+                onCLick = onButtonClicked
+            )
+        }
     }
 
     OneTapSignInWithGoogle(
-        state =oneTapState ,
+        state = oneTapState,
         clientId = BuildConfig.CLIENT_ID,
-        onTokenIdReceived ={token->
+        onTokenIdReceived = { token ->
             Log.d("TAG", "AuthenticationScreen: token received $token")
-        } ,
-        onDialogDismissed = {message->
+            messageBarState.addSuccess("Successfully Signed In with Google")
+        },
+        onDialogDismissed = { message ->
             Log.d("TAG", "AuthenticationScreen: dialogDismissed $message")
+            messageBarState.addError(Exception(message))
         })
 }
