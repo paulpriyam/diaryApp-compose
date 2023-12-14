@@ -41,7 +41,7 @@ fun AuthenticationComponent(
                 fontSize = MaterialTheme.typography.bodyMedium.fontSize
             )
         }
-        Column(modifier=Modifier.weight(4f), verticalArrangement = Arrangement.Top) {
+        Column(modifier=Modifier.weight(2f), verticalArrangement = Arrangement.Center) {
             GoogleButton(
                 loadingState = loadingState,
                 onClick = onCLick
