@@ -9,10 +9,13 @@ import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.GoogleAuthType
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AuthenticationViewModel : ViewModel() {
+    var authenticated = mutableStateOf(false)
+        private set
     var loadingState = mutableStateOf(false)
         private set
 
@@ -36,6 +39,8 @@ class AuthenticationViewModel : ViewModel() {
                 }.loggedIn
                 withContext(Dispatchers.Main) {
                     onSuccess.invoke(result)
+                    delay(800L)
+                    authenticated.value = true
                 }
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
