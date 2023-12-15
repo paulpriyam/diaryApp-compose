@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.diaryapp.presentation.screens.auth.AuthenticationScreen
+import com.example.diaryapp.presentation.screens.home.HomeScreen
 import com.example.diaryapp.viewmodel.AuthenticationViewModel
 import com.stevdzasan.messagebar.ContentWithMessageBar
 import com.stevdzasan.messagebar.rememberMessageBarState
@@ -34,9 +35,8 @@ fun SetUpNavigation(startDestination: String, navHostController: NavHostControll
             navHostController.popBackStack()
             navHostController.navigate(Screens.HomeScreen.route)
         })
-        homeRoute(navigateToAuthScreen = {
-            navHostController.popBackStack()
-            navHostController.navigate(Screens.AuthenticationScreen.route)
+        homeRoute(navigateToWriteScreen = {
+            navHostController.navigate(Screens.WriteScreen.route)
         })
         writeRoute()
     }
@@ -81,30 +81,11 @@ fun NavGraphBuilder.authenticationRoute(navigateToHomeScreen: () -> Unit) {
     }
 }
 
-fun NavGraphBuilder.homeRoute(navigateToAuthScreen: () -> Unit) {
+fun NavGraphBuilder.homeRoute(navigateToWriteScreen: () -> Unit) {
     composable(route = Screens.HomeScreen.route) {
-        val scope = rememberCoroutineScope()
-        val messageState = rememberMessageBarState()
-        ContentWithMessageBar(messageBarState = messageState) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Button(onClick = {
-                    scope.launch(Dispatchers.IO) {
-                        App.create(com.example.diaryapp.BuildConfig.MONGO_DB_API_KEY).currentUser?.logOut()
-                        messageState.addSuccess("Successfully Logged Out")
-                        delay(1000L)
-                        navigateToAuthScreen.invoke()
+       HomeScreen(onMenuItemClicked = {}, navigateToWriteScreen = {
 
-                    }
-                }) {
-                    Text(text = "Logout")
-                }
-            }
-        }
-
+       })
     }
 }
 
