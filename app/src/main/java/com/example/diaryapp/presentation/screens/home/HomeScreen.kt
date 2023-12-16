@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import com.example.diaryapp.presentation.components.HomeNavigationDrawer
 import com.example.diaryapp.presentation.components.HomeTopBar
 
