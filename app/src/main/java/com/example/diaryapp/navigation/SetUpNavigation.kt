@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -28,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetUpNavigation(startDestination: String, navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = startDestination) {
@@ -81,11 +81,25 @@ fun NavGraphBuilder.authenticationRoute(navigateToHomeScreen: () -> Unit) {
     }
 }
 
-fun NavGraphBuilder.homeRoute(navigateToWriteScreen: () -> Unit) {
+@OptIn(ExperimentalMaterial3Api::class)
+fun NavGraphBuilder.homeRoute(
+    navigateToWriteScreen: () -> Unit) {
     composable(route = Screens.HomeScreen.route) {
-       HomeScreen(onMenuItemClicked = {}, navigateToWriteScreen = {
+        val scope = rememberCoroutineScope()
+        val drawerState= rememberDrawerState(initialValue = DrawerValue.Closed)
+        HomeScreen(
+            drawerState = drawerState,
+            onMenuItemClicked = {
+                scope.launch {
+                    drawerState.open()
+                }
+            },
+            onSignOutClicked = {
 
-       })
+            },
+            navigateToWriteScreen = {
+              navigateToWriteScreen.invoke()
+            })
     }
 }
 
